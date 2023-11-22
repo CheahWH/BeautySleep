@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct BeautySleepApp: App {
+    @StateObject var manager = HealthManager()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BeautySleepTabView()
+                .environmentObject(manager)
         }
     }
 }

@@ -11,6 +11,10 @@
 		82F494B62B077AEA00CE7D81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494B52B077AEA00CE7D81 /* ContentView.swift */; };
 		82F494B82B077AEE00CE7D81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F494B72B077AEE00CE7D81 /* Assets.xcassets */; };
 		82F494BB2B077AEE00CE7D81 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F494BA2B077AEE00CE7D81 /* Preview Assets.xcassets */; };
+		82F494C22B077BBB00CE7D81 /* BeautySleepTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C12B077BBB00CE7D81 /* BeautySleepTabView.swift */; };
+		82F494C42B077CD700CE7D81 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C32B077CD700CE7D81 /* HomeView.swift */; };
+		82F494C62B077E4400CE7D81 /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C52B077E4300CE7D81 /* ActivityCard.swift */; };
+		82F494C82B07893500CE7D81 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C72B07893400CE7D81 /* HealthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,11 @@
 		82F494B52B077AEA00CE7D81 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		82F494B72B077AEE00CE7D81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82F494BA2B077AEE00CE7D81 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		82F494C12B077BBB00CE7D81 /* BeautySleepTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeautySleepTabView.swift; sourceTree = "<group>"; };
+		82F494C32B077CD700CE7D81 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		82F494C52B077E4300CE7D81 /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
+		82F494C72B07893400CE7D81 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		82F494C92B07911400CE7D81 /* BeautySleep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeautySleep.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,10 +60,15 @@
 		82F494B22B077AEA00CE7D81 /* BeautySleep */ = {
 			isa = PBXGroup;
 			children = (
+				82F494C92B07911400CE7D81 /* BeautySleep.entitlements */,
 				82F494B32B077AEA00CE7D81 /* BeautySleepApp.swift */,
 				82F494B52B077AEA00CE7D81 /* ContentView.swift */,
 				82F494B72B077AEE00CE7D81 /* Assets.xcassets */,
 				82F494B92B077AEE00CE7D81 /* Preview Content */,
+				82F494C12B077BBB00CE7D81 /* BeautySleepTabView.swift */,
+				82F494C32B077CD700CE7D81 /* HomeView.swift */,
+				82F494C52B077E4300CE7D81 /* ActivityCard.swift */,
+				82F494C72B07893400CE7D81 /* HealthManager.swift */,
 			);
 			path = BeautySleep;
 			sourceTree = "<group>";
@@ -138,7 +152,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				82F494B62B077AEA00CE7D81 /* ContentView.swift in Sources */,
+				82F494C82B07893500CE7D81 /* HealthManager.swift in Sources */,
+				82F494C42B077CD700CE7D81 /* HomeView.swift in Sources */,
 				82F494B42B077AEA00CE7D81 /* BeautySleepApp.swift in Sources */,
+				82F494C22B077BBB00CE7D81 /* BeautySleepTabView.swift in Sources */,
+				82F494C62B077E4400CE7D81 /* ActivityCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,12 +287,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BeautySleep/BeautySleep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
 				DEVELOPMENT_TEAM = 87W74Y6HTP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to use our application!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -298,12 +318,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BeautySleep/BeautySleep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
 				DEVELOPMENT_TEAM = 87W74Y6HTP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to use our application!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
