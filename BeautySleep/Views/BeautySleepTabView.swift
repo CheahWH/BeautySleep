@@ -29,7 +29,6 @@ struct BeautySleepTabView: View {
 struct BeautySleepTabView_Previews: PreviewProvider {
     static var previews: some View {
         BeautySleepTabView()
-        
     }
 }
 //#Preview {

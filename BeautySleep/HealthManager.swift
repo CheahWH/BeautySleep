@@ -8,6 +8,8 @@
 //
 import Foundation
 import HealthKit
+import FirebaseDatabase
+import SwiftUI
 
 extension Date {
     static var startOfDay: Date {
@@ -16,6 +18,8 @@ extension Date {
 }
 
 class HealthManager: ObservableObject {
+    
+    let database = Database.database().reference()
     @Published var activities: [String: Activity] = [:]
     let healthStore = HKHealthStore()
 
@@ -29,9 +33,13 @@ class HealthManager: ObservableObject {
             } catch {
                 print("Error fetching health data: \(error.localizedDescription)")
             }
+
         }
     }
+    
 
+    
+//
     func fetchLastNightSleep() {
         let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
 
@@ -54,7 +62,7 @@ class HealthManager: ObservableObject {
                 totalSleepHours += hours
             }
 
-            let activity = Activity(id: 0, title: "Last Night's Sleep", subtitle: "", image: "moon.stars", amount: totalSleepHours.formattedString())
+            let activity = Activity(id: 0, title: "Last Night's Sleep", subtitle: "Hours", image: "moon.stars", amount: totalSleepHours.formattedString(), view: AnyView(GSRView()))
             DispatchQueue.main.async {
                 self.activities["lastNightSleep"] = activity
             }
@@ -63,6 +71,14 @@ class HealthManager: ObservableObject {
         }
 
         healthStore.execute(query)
+    }
+    
+    func displayGSRData () {
+        
+        let activity = Activity(id: 1, title: "GSR Data", subtitle: "Disturbances", image: nil, amount: nil, view: AnyView(GSRView()))
+        DispatchQueue.main.async {
+            self.activities["GSRData"] = activity
+        }
     }
 }
 

@@ -23,6 +23,7 @@ struct HomeView: View {
         }
         .onAppear(){
             manager.fetchLastNightSleep()
+            manager.displayGSRData()
         }
     }
 }
