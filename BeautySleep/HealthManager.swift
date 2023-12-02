@@ -6,6 +6,95 @@
 //
 // HealthManager.swift
 //
+//import Foundation
+//import HealthKit
+//import FirebaseDatabase
+//import SwiftUI
+//
+//extension Date {
+//    static var startOfDay: Date {
+//        Calendar.current.startOfDay(for: Date())
+//    }
+//}
+//
+//class HealthManager: ObservableObject {
+//    
+//    let database = Database.database().reference()
+//    @Published var activities: [String: Activity] = [:]
+//    let healthStore = HKHealthStore()
+//
+//    init() {
+//        let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
+//        let healthTypes: Set<HKSampleType> = [sleepType]
+//
+//        Task {
+//            do {
+//                try await healthStore.requestAuthorization(toShare: [], read: healthTypes)
+//            } catch {
+//                print("Error fetching health data: \(error.localizedDescription)")
+//            }
+//
+//        }
+//    }
+//    
+//
+//    func fetchLastNightSleep() {
+//        let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
+//
+//        //define the date range for last night
+//        let yesterdayStart = Calendar.current.date(byAdding: .day, value: -1, to: Date.startOfDay)!
+//        let yesterdayEnd = Date.startOfDay
+//
+//        //predicate for samples within the last night
+//        let predicate = HKQuery.predicateForSamples(withStart: yesterdayStart, end: yesterdayEnd)
+//        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, samples, error in
+//            guard let samples = samples as? [HKCategorySample], error == nil else {
+//                print("Error fetching last night's sleep data")
+//                return
+//            }
+//
+//            var totalSleepHours: Double = 0.0
+//
+//            for sample in samples {
+//                let hours = sample.endDate.timeIntervalSince(sample.startDate) / 3600
+//                totalSleepHours += hours
+//            }
+//
+//            let activity = Activity(id: 0, title: "Last Night's Sleep", subtitle: "Hours", image: "moon.stars", amount: totalSleepHours.formattedString(), view: AnyView(GSRView()))
+//            DispatchQueue.main.async {
+//                self.activities["lastNightSleep"] = activity
+//            }
+//
+//            print(totalSleepHours.formattedString())
+//        }
+//
+//        healthStore.execute(query)
+//    }
+//    
+//    func displayGSRData () {
+//        
+//        let activity = Activity(id: 1, title: "GSR Data", subtitle: "Disturbances", image: "chart.xyaxis.line", amount: nil, view: AnyView(GSRView()))
+//        DispatchQueue.main.async {
+//            self.activities["GSRData"] = activity
+//        }
+//    }
+//}
+//
+//extension Double {
+//    func formattedString() -> String {
+//        let numberFormatter = NumberFormatter()
+//        numberFormatter.numberStyle = .decimal
+//        numberFormatter.maximumFractionDigits = 2
+//
+//        if let formattedValue = numberFormatter.string(from: NSNumber(value: self)) {
+//            return formattedValue
+//        } else {
+//            return "N/A" //you can provide a default value or handle this case accordingly
+//        }
+//    }
+//}
+//
+//
 import Foundation
 import HealthKit
 import FirebaseDatabase
@@ -22,6 +111,7 @@ class HealthManager: ObservableObject {
     let database = Database.database().reference()
     @Published var activities: [String: Activity] = [:]
     let healthStore = HKHealthStore()
+    @Published var selectedSleepSample: HKCategorySample?
 
     init() {
         let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
@@ -36,18 +126,11 @@ class HealthManager: ObservableObject {
 
         }
     }
-    
 
-    
-//
     func fetchLastNightSleep() {
         let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
-
-        // Define the date range for last night
         let yesterdayStart = Calendar.current.date(byAdding: .day, value: -1, to: Date.startOfDay)!
         let yesterdayEnd = Date.startOfDay
-
-        // Predicate for samples within the last night
         let predicate = HKQuery.predicateForSamples(withStart: yesterdayStart, end: yesterdayEnd)
         let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, samples, error in
             guard let samples = samples as? [HKCategorySample], error == nil else {
@@ -66,16 +149,35 @@ class HealthManager: ObservableObject {
             DispatchQueue.main.async {
                 self.activities["lastNightSleep"] = activity
             }
-
-            print(totalSleepHours.formattedString())
         }
 
         healthStore.execute(query)
     }
     
-    func displayGSRData () {
-        
-        let activity = Activity(id: 1, title: "GSR Data", subtitle: "Disturbances", image: nil, amount: nil, view: AnyView(GSRView()))
+    func fetchLastNightSleepDetails() {
+        let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
+        let yesterdayStart = Calendar.current.date(byAdding: .day, value: -1, to: Date.startOfDay)!
+        let yesterdayEnd = Date.startOfDay
+        let predicate = HKQuery.predicateForSamples(withStart: yesterdayStart, end: yesterdayEnd)
+        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, samples, error in
+            guard let samples = samples as? [HKCategorySample], error == nil else {
+                print("Error fetching last night's sleep details")
+                return
+            }
+
+            // Assuming you want to display details for the first sample
+            if let firstSample = samples.first {
+                DispatchQueue.main.async {
+                    self.selectedSleepSample = firstSample
+                }
+            }
+        }
+
+        healthStore.execute(query)
+    }
+
+    func displayGSRData() {
+        let activity = Activity(id: 1, title: "GSR Data", subtitle: "Disturbances", image: "chart.xyaxis.line", amount: nil, view: AnyView(GSRView()))
         DispatchQueue.main.async {
             self.activities["GSRData"] = activity
         }
@@ -91,10 +193,12 @@ extension Double {
         if let formattedValue = numberFormatter.string(from: NSNumber(value: self)) {
             return formattedValue
         } else {
-            return "N/A" // You can provide a default value or handle this case accordingly
+            return "N/A"
         }
     }
 }
+
+
 
 
 
@@ -149,3 +253,4 @@ extension Double{
     }
 }
 */
+

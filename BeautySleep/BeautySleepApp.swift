@@ -11,6 +11,8 @@ import FirebaseFirestore
 import FirebaseDatabaseSwift
 import FirebaseAuth
 
+//initializes Firebase when the application starts
+//main entry point for the app, configures Firebase and sets up the main SwiftUI 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {

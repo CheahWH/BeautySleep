@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GSRView: View {
     var body: some View {
-        Text("Hello, World!")
+        Text("Login")
     }
 }
 
