@@ -10,6 +10,7 @@ import SwiftUI
 struct BeautySleepTabView: View {
     @EnvironmentObject var manager: HealthManager
     @State var selectedTab = "Home"
+    
     var body: some View {
         TabView(selection: $selectedTab){
             HomeView()
@@ -23,6 +24,7 @@ struct BeautySleepTabView: View {
                     Image(systemName: "person")
                 }
         }
+        .accentColor(.purple)  // Set the accent color to purple for selected tab
     }
 }
 
@@ -31,6 +33,8 @@ struct BeautySleepTabView_Previews: PreviewProvider {
         BeautySleepTabView()
     }
 }
+
+
 //#Preview {
 //    BeautySleepTabView()
 //}
