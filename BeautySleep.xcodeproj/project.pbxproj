@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		824BF82D2B184961009086A6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 824BF82C2B184961009086A6 /* GoogleService-Info.plist */; };
+		7AB8A1E52B1AE38A0064A589 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 824BF8392B1849EA009086A6 /* GoogleService-Info.plist */; };
 		824BF8302B1849BF009086A6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF82F2B1849BF009086A6 /* FirebaseAnalytics */; };
 		824BF8322B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8312B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion */; };
 		824BF8342B1849BF009086A6 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8332B1849BF009086A6 /* FirebaseAnalyticsSwift */; };
@@ -53,7 +53,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		824BF82C2B184961009086A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		824BF8392B1849EA009086A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		829EB23E2B186983005378E4 /* GSRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSRView.swift; sourceTree = "<group>"; };
 		829EB2462B1AB946005378E4 /* SleepDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDetailsView.swift; sourceTree = "<group>"; };
@@ -128,7 +127,6 @@
 		82F494A72B077AEA00CE7D81 = {
 			isa = PBXGroup;
 			children = (
-				824BF82C2B184961009086A6 /* GoogleService-Info.plist */,
 				82F494B22B077AEA00CE7D81 /* BeautySleep */,
 				82F494B12B077AEA00CE7D81 /* Products */,
 			);
@@ -261,7 +259,7 @@
 			files = (
 				82F494BB2B077AEE00CE7D81 /* Preview Assets.xcassets in Resources */,
 				82F494B82B077AEE00CE7D81 /* Assets.xcassets in Resources */,
-				824BF82D2B184961009086A6 /* GoogleService-Info.plist in Resources */,
+				7AB8A1E52B1AE38A0064A589 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,9 +412,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
-				DEVELOPMENT_TEAM = 87W74Y6HTP;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_FILE[sdk=*]" = "";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to use our application!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -445,7 +444,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
-				DEVELOPMENT_TEAM = 87W74Y6HTP;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to use our application!";
