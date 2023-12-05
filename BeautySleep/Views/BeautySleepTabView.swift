@@ -22,6 +22,16 @@ struct BeautySleepTabView: View {
                 .tabItem{
                     Image(systemName: "person")
                 }
+            GSRView()
+                .tag("GSR")
+                .tabItem{
+                    Image(systemName: "person")
+                }
+            MoodTrackerView()
+                .tag("MoodTracker")
+                .tabItem{
+                    Image(systemName: "person")
+                }
         }
     }
 }

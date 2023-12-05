@@ -8,7 +8,10 @@
 import SwiftUI
 import Firebase
 
-struct MoodTracker: View {
+let username = "rowan"
+var val : Int = 0
+
+struct MoodTrackerView: View {
     var body: some View {
         VStack(spacing: 10){
             Text("Mood Tracking")
@@ -74,7 +77,7 @@ struct MoodTracker: View {
             }
             Spacer()
             Button("Finished"){
-                
+                transmitData(username: username, val: val)
             }
             .padding()
             .background(Color.blue)
@@ -90,14 +93,12 @@ struct MoodButton: View {
     var label : String
     var body: some View {
         Button(action: {
-            var val : Int
-            val = 0
-            if (label == "Awful") {val = 0}
-            if (label == "Bad") {val = 1}
-            if (label == "Neutral") {val = 2}
-            if (label == "Good") {val = 3}
-            if (label == "Great") {val = 4}
-            transmitData(val: val,date : Date.now)
+            if (label == "Awful") {val += 0}
+            if (label == "Bad") {val += 1}
+            if (label == "Neutral") {val += 2}
+            if (label == "Good") {val += 3}
+            if (label == "Great") {val += 4}
+            
         }) {
             Text(label)
                 .padding()
@@ -108,24 +109,34 @@ struct MoodButton: View {
     }
 }
 
-func transmitData(val : Int, date : Date){
-    let db = Firestore.firestore()
-    let moodEntry: [String:Any] = [
-            "value": val,
-            "date": date
-        ]
-    
-    db.collection("moodEntries").addDocument(data: moodEntry) { error in
+func transmitData(username: String, val: Int) {
+    var value : Double = Double(val)/7
+    let db = Database.database().reference()
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    let formattedDate = dateFormatter.string(from: Date.now)
+    print(formattedDate)
+
+    let moodEntry: [String: Any] = [
+        "value": value/7,
+    ]
+
+    let userPath = "/moodEntries/\(username)/\(formattedDate)"
+    let childUpdates = [userPath: moodEntry]
+
+    db.updateChildValues(childUpdates) { error, _ in
         if let error = error {
-            print("Error adding document: \(error)")
+            print("Error adding entry to database: \(error)")
         } else {
-            print("Document added successfully!")
+            print("Entry added successfully!")
         }
     }
 
-    print("data: " , val , " transmitted on date: " , date)
+    print("data: \(value) transmitted for \(username) on date: \(formattedDate)")
 }
 
+
 #Preview {
-    MoodTracker()
+    MoodTrackerView()
 }
