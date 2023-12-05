@@ -38,6 +38,9 @@ struct HomeView: View {
             if let sleepSample = manager.selectedSleepSample {
                 SleepDetailsView(sleepSample: sleepSample)
             }
+            if let sleepSample = manager.selectedSleepSample {
+                SleepDetailsView(sleepSample: sleepSample)
+            }
         }
     }
 }

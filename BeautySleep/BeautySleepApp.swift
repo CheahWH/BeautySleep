@@ -10,12 +10,15 @@ import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseDatabaseSwift
 import FirebaseAuth
+import FirebaseAppCheck
+
 
 //initializes Firebase when the application starts
 //main entry point for the app, configures Firebase and sets up the main SwiftUI 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    AppCheck.setAppCheckProviderFactory(MyAppCheckProviderFactory())
     FirebaseApp.configure()
     return true
   }
@@ -25,6 +28,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct BeautySleepApp: App {
+
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var manager = HealthManager()
 
