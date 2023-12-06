@@ -11,18 +11,18 @@ import FirebaseDatabase
 
 
 struct ContentView: View {
-    
     var body: some View {
-            VStack {
-                Image(systemName: "watch.analog")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Log In")
-            }
-            .padding()
+        VStack {
+            Image(systemName: "watch.analog")
+                .foregroundColor(.blue)
+                .font(.system(size: 40))
+            
+            Text("Log In")
+                .font(.title)
         }
+        .padding()
     }
-
+}
 
 
 #Preview {

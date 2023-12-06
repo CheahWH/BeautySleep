@@ -17,7 +17,7 @@ struct BeautySleepTabView: View {
             SleepDetailsView(sleepSample: manager.selectedSleepSample ?? defaultSleepSample())
                 .tag("Home")
                 .tabItem {
-                    Image(systemName: "house")
+                    Image(systemName: "moon.zzz.fill")
                 }
 
             ContentView()
@@ -38,12 +38,11 @@ struct BeautySleepTabView: View {
                     Image(systemName: "smiley")
                 }
         }
-        .accentColor(.purple)  // Set the accent color to purple for selected tab
+        .accentColor(.purple) 
     }
 
-    // Provide a default HKCategorySample if manager.selectedSleepSample is nil
+   
     private func defaultSleepSample() -> HKCategorySample {
-        // Replace "HKCategoryTypeIdentifier.sleepAnalysis" with the appropriate identifier
         let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
         return HKCategorySample(type: sleepType, value: HKCategoryValueSleepAnalysis.asleep.rawValue, start: Date(), end: Date())
     }
