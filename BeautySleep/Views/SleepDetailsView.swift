@@ -27,6 +27,7 @@ struct SleepDetailsView: View {
         VStack {
             Text("Sleep Details")
                 .font(.largeTitle)
+                .foregroundColor(.blue)
                 .padding()
 
             HStack {
