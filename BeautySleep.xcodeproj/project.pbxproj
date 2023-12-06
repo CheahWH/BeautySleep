@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7ACF33F02B1E83240021114B /* MoodTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */; };
 		7ACF33F42B1E98B20021114B /* MyAppCheckProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */; };
-		7ACF33F62B1E9B4B0021114B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7ACF33F52B1E9B4B0021114B /* GoogleService-Info.plist */; };
 		824BF8302B1849BF009086A6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF82F2B1849BF009086A6 /* FirebaseAnalytics */; };
 		824BF8322B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8312B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion */; };
 		824BF8342B1849BF009086A6 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8332B1849BF009086A6 /* FirebaseAnalyticsSwift */; };
@@ -52,12 +51,12 @@
 		82F494C42B077CD700CE7D81 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C32B077CD700CE7D81 /* HomeView.swift */; };
 		82F494C62B077E4400CE7D81 /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C52B077E4300CE7D81 /* ActivityCard.swift */; };
 		82F494C82B07893500CE7D81 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F494C72B07893400CE7D81 /* HealthManager.swift */; };
+		82FF656E2B1FEEE20095F341 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82FF656D2B1FEEE20095F341 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodTrackerView.swift; sourceTree = "<group>"; };
 		7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppCheckProviderFactory.swift; sourceTree = "<group>"; };
-		7ACF33F52B1E9B4B0021114B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		829EB23E2B186983005378E4 /* GSRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSRView.swift; sourceTree = "<group>"; };
 		829EB2462B1AB946005378E4 /* SleepDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDetailsView.swift; sourceTree = "<group>"; };
 		82F494B02B077AEA00CE7D81 /* BeautySleep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeautySleep.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +69,7 @@
 		82F494C52B077E4300CE7D81 /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
 		82F494C72B07893400CE7D81 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		82F494C92B07911400CE7D81 /* BeautySleep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeautySleep.entitlements; sourceTree = "<group>"; };
+		82FF656D2B1FEEE20095F341 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +125,7 @@
 		7ACF33F22B1E98920021114B /* AppCheck */ = {
 			isa = PBXGroup;
 			children = (
+				82FF656D2B1FEEE20095F341 /* GoogleService-Info.plist */,
 				7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */,
 			);
 			path = AppCheck;
@@ -164,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				7ACF33F22B1E98920021114B /* AppCheck */,
-				7ACF33F52B1E9B4B0021114B /* GoogleService-Info.plist */,
 				82F494C92B07911400CE7D81 /* BeautySleep.entitlements */,
 				82F494B32B077AEA00CE7D81 /* BeautySleepApp.swift */,
 				82F494B72B077AEE00CE7D81 /* Assets.xcassets */,
@@ -280,7 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82F494BB2B077AEE00CE7D81 /* Preview Assets.xcassets in Resources */,
-				7ACF33F62B1E9B4B0021114B /* GoogleService-Info.plist in Resources */,
+				82FF656E2B1FEEE20095F341 /* GoogleService-Info.plist in Resources */,
 				82F494B82B077AEE00CE7D81 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,7 +436,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 87W74Y6HTP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_FILE[sdk=*]" = "";
@@ -468,7 +468,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 87W74Y6HTP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to use our application!";

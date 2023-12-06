@@ -13,11 +13,12 @@ var val : Int = 0
 
 struct MoodTrackerView: View {
     var body: some View {
-        VStack(spacing: 10){
+        VStack(spacing: 5){
             Text("Mood Tracking")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .fontWeight(.bold)
-                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                .foregroundColor(.blue)
+                .padding(.bottom, 5)
             Spacer()
             Text("How are you feeling today?")
             HStack(spacing:2){
@@ -51,7 +52,8 @@ struct MoodTrackerView: View {
                 MoodButton(label:"Good")
                 MoodButton(label:"Great")
             }
-            Text("How would you describe your most recent tasks?")
+            //"How would you describe your most recent tasks?"
+            Text("What were your recent tasks like?")
             HStack(spacing:2){
                 MoodButton(label:"Awful")
                 MoodButton(label:"Bad")
@@ -84,8 +86,11 @@ struct MoodTrackerView: View {
             .foregroundColor(.white)
             .cornerRadius(8)
             .fontWeight(.bold)
+            .padding(.top, 5)
             Spacer()
         }
+        .padding()
+        .padding(.top, -5)
     }
 }
 
@@ -137,6 +142,7 @@ func transmitData(username: String, val: Int) {
 }
 
 
-#Preview {
-    MoodTrackerView()
-}
+//#Preview {
+//    MoodTrackerView()
+//}
+//
