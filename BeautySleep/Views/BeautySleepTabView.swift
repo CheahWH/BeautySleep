@@ -38,6 +38,7 @@ struct BeautySleepTabView: View {
                     Image(systemName: "smiley")
                 }
         }
+        .accentColor(.purple)  // Set the accent color to purple for selected tab
     }
 
     // Provide a default HKCategorySample if manager.selectedSleepSample is nil
@@ -54,43 +55,6 @@ struct BeautySleepTabView_Previews: PreviewProvider {
     }
 }
 
-
-//import SwiftUI
-//
-//struct BeautySleepTabView: View {
-//    @EnvironmentObject var manager: HealthManager
-//    @State var selectedTab = "Home"
-//    var body: some View {
-//        TabView(selection: $selectedTab){
-//            HomeView()
-//                .tag("Home")
-//                .tabItem{
-//                    Image(systemName: "house")
-//                }
-//            ContentView()
-//                .tag("Content")
-//                .tabItem{
-//                    Image(systemName: "person")
-//                }
-//            GSRView()
-//                .tag("GSR")
-//                .tabItem{
-//                    Image(systemName: "chart.xyaxis.line")
-//                }
-//            MoodTrackerView()
-//                .tag("MoodTracker")
-//                .tabItem{
-//                    Image(systemName: "smiley")
-//                }
-//        }
-//    }
-//}
-//
-//struct BeautySleepTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BeautySleepTabView()
-//    }
-//}
 //#Preview {
 //    BeautySleepTabView()
 //}
