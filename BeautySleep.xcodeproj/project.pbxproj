@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A26250F2B2142FE0067A47A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A26250E2B2142FE0067A47A /* GoogleService-Info.plist */; };
 		7A2625112B2153730067A47A /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2625102B2153730067A47A /* MoodView.swift */; };
 		7ACF33F02B1E83240021114B /* MoodTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */; };
 		7ACF33F42B1E98B20021114B /* MyAppCheckProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */; };
+		823C02E22B218C4800B604C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 823C02E12B218C4800B604C0 /* GoogleService-Info.plist */; };
 		824BF8302B1849BF009086A6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF82F2B1849BF009086A6 /* FirebaseAnalytics */; };
 		824BF8322B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8312B1849BF009086A6 /* FirebaseAnalyticsOnDeviceConversion */; };
 		824BF8342B1849BF009086A6 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF8332B1849BF009086A6 /* FirebaseAnalyticsSwift */; };
@@ -56,10 +56,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7A26250E2B2142FE0067A47A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A2625102B2153730067A47A /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodTrackerView.swift; sourceTree = "<group>"; };
 		7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppCheckProviderFactory.swift; sourceTree = "<group>"; };
+		823C02E12B218C4800B604C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		829EB23E2B186983005378E4 /* GSRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSRView.swift; sourceTree = "<group>"; };
 		829EB2462B1AB946005378E4 /* SleepDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDetailsView.swift; sourceTree = "<group>"; };
 		82F494B02B077AEA00CE7D81 /* BeautySleep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeautySleep.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,7 +127,7 @@
 		7ACF33F22B1E98920021114B /* AppCheck */ = {
 			isa = PBXGroup;
 			children = (
-				7A26250E2B2142FE0067A47A /* GoogleService-Info.plist */,
+				823C02E12B218C4800B604C0 /* GoogleService-Info.plist */,
 				7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */,
 			);
 			path = AppCheck;
@@ -283,8 +283,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				82F494BB2B077AEE00CE7D81 /* Preview Assets.xcassets in Resources */,
-				7A26250F2B2142FE0067A47A /* GoogleService-Info.plist in Resources */,
 				82F494B82B077AEE00CE7D81 /* Assets.xcassets in Resources */,
+				823C02E22B218C4800B604C0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +437,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BeautySleep/BeautySleep.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
@@ -455,8 +456,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cheahwh123.BeautySleep;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheahwh123.BeautySleepProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -469,6 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BeautySleep/BeautySleep.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeautySleep/Preview Content\"";
@@ -486,8 +489,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cheahwh123.BeautySleep;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheahwh123.BeautySleepProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

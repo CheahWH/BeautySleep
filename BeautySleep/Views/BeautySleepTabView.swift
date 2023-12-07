@@ -14,7 +14,7 @@ struct BeautySleepTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Directly show SleepDetailsView for the "Home" tab
-            SleepDetailsView(sleepSample: manager.selectedSleepSample ?? defaultSleepSample())
+            HomeView()
                 .tag("Home")
                 .tabItem {
                     Image(systemName: "moon.zzz.fill")

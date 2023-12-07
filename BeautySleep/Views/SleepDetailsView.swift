@@ -44,12 +44,12 @@ struct SleepDetailsView: View {
             }
             .padding()
             
-            HStack {
-                Text("Time In Bed:")
-                Spacer()
-                Text("\(totalTimeInBed())")
-            }
-            .padding()
+//            HStack {
+//                Text("Time In Bed:")
+//                Spacer()
+//                Text("\(totalTimeInBed())")
+//            }
+//            .padding()
 
             HStack {
                 Text("REM Sleep Duration:")
@@ -76,11 +76,12 @@ struct SleepDetailsView: View {
         }
     }
     
-    private func totalTimeInBed() -> String {
-        let totalTimeInSeconds = sleepSample.endDate.timeIntervalSince(yesterday.startOfDay)
-        return formattedHoursMinutes(from: totalTimeInSeconds)
-    }
+//    private func totalTimeInBed() -> Strilang {
+//        let totalTimeInSeconds = sleepSample.endDate.timeIntervalSince(yesterday.startOfDay)
+//        return formattedHoursMinutes(from: totalTimeInSeconds)
+//    }
 
+    //will track for 24hrs (midnights)
     private func durationInCategory(_ category: HKCategoryValueSleepAnalysis) -> TimeInterval {
         let healthStore = HKHealthStore()
         let sleepType = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis)!
@@ -97,14 +98,13 @@ struct SleepDetailsView: View {
             let duration = categorySamples.reduce(0) { $0 + $1.endDate.timeIntervalSince($1.startDate) }
             
             DispatchQueue.main.async {
-                // Update UI or store the duration as needed
                 print("Duration in \(category): \(duration) seconds")
             }
         }
         
         healthStore.execute(query)
         
-        // Return a default value, as the actual duration will be fetched asynchronously
+        //return default value bcs actual duration will be fetched asynchronously
         return 0
     }
 
