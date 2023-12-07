@@ -6,19 +6,21 @@
 //
 
 
-//TODO:
-//READ IN SENSOR DATA
-//PLOT DATA IN CHART
+
+
 import SwiftUI
 import Firebase
+import Charts
+
 
 let database = Database.database()
 
-struct SleepData {
+struct SleepData: Identifiable {
     let id: String
     let time: CGFloat
     let er: CGFloat
 }
+
 
 func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
     let currentDate = Date()
@@ -55,13 +57,16 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
 
             for (timestamp, entry) in allData {
                 print("Entry Timestamp: \(timestamp), Entry: \(entry)")
-
+                
                 if let er = entry["gsrAverage"] as? CGFloat,
                    let time = entry["timestamp"] as? CGFloat {
-
+                    
                     let sleepData = SleepData(id: timestamp, time: Double(time), er: Double(er))
+                    if (Double(er) > 750.0 || Double(er) < 600.0){
+                        print(time)
+                        print (sleepData)
+                    }
                     sleepDataArray.append(sleepData)
-                    print(sleepData)
                 }
             }
 
@@ -97,7 +102,7 @@ struct GSRView: View {
                     .onAppear {
                         readDataForPastDay { sleepDataArray in
                             if let sleepDataArray = sleepDataArray {
-                                self.data = Array(sleepDataArray.prefix(20))
+                                self.data = Array(sleepDataArray)
                             }
                             loaded = true
                         }
@@ -119,114 +124,55 @@ struct GSRView: View {
         }
     }
     
-//struct LineChart: View {
-//    let data: [SleepData]
-//    
-//    var body: some View {
-//        GeometryReader { geometry in
-//            let maxX = data.map(\.time).max() ?? 0
-//            let maxY = data.map(\.er).max() ?? 0
-//            
-//            let xScale = maxX > 0 ? geometry.size.width / maxX : 0
-//            let yScale = maxY > 0 ? geometry.size.height / maxY : 0
-//            
-//            // Y-axis
-//            Path { path in
-//                path.move(to: CGPoint(x: 30, y: 0))
-//                path.addLine(to: CGPoint(x: 30, y: geometry.size.height - 20))
-//            }
-//            .stroke(lineWidth: 1)
-//            .foregroundColor(.black)
-//            
-//            // X-axis
-//            Path { path in
-//                path.move(to: CGPoint(x: 30, y: geometry.size.height - 20))
-//                path.addLine(to: CGPoint(x: geometry.size.width - 30, y: geometry.size.height - 20))
-//            }
-//            .stroke(lineWidth: 1)
-//            .foregroundColor(.black)
-//            
-//            // Data points and labels
-//            ForEach(data, id: \.id) { point in
-//                let x = xScale * (point.time - data[0].time) + 30 // Adjust x position based on the first timestamp
-//                let y = geometry.size.height - yScale * point.er - 20
-//                
-//                Path { path in
-//                    path.addEllipse(in: CGRect(x: x - 5, y: y - 5, width: 10, height: 10))
-//                }
-//                .foregroundColor(.red)
-//                
-//                Text("\(Int(point.er))")
-//                    .position(x: x, y: y - 20)
-//            }
-//            
-//            // Y-axis labels
-//            ForEach(1..<6, id: \.self) { i in
-//                let y = yScale * CGFloat(i) * maxY / 5 - 20
-//                Text("\(Double(y))")
-//                    .position(x: 15, y: geometry.size.height - y)
-//            }
-//            
-//            // X-axis labels (timestamps)
-//            ForEach(data, id: \.id) { point in
-//                let x = xScale * (point.time - data[0].time) + 30
-//                Text("\(Int(point.time))")
-//                    .position(x: x, y: geometry.size.height - 10)
-//            }
-//            
-//            // Y-axis label
-//            Text("Resistance (Units)")
-//                .rotationEffect(.degrees(-90))
-//                .position(x: -20, y: geometry.size.height / 2)
-//            
-//            // X-axis label
-//            Text("Time (Seconds)")
-//                .position(x: geometry.size.width / 2, y: geometry.size.height + 20)
-//            
-//            // Connecting lines
-//            Path { path in
-//                for (index, point) in data.enumerated() {
-//                    let x = xScale * (point.time - data[0].time) + 30
-//                    let y = geometry.size.height - yScale * point.er - 20
-//                    
-//                    if index == 0 {
-//                        path.move(to: CGPoint(x: x, y: y))
-//                    } else {
-//                        path.addLine(to: CGPoint(x: x, y: y))
-//                    }
-//                }
-//            }
-//            .stroke(lineWidth: 2)
-//            .foregroundColor(.blue)
-//        }
-//    }
-//}
-
 struct LineChart: View {
-    var data: [SleepData]
-
+    let data: [SleepData]
     var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                Path { path in
-                    for i in 0..<data.count {
-                        let x = CGFloat(i) * (geometry.size.width / CGFloat(data.count - 1))
-                        let y = CGFloat(data[i].er) * geometry.size.height
-                        let point = CGPoint(x: x, y: y)
-                        
-                        if i == 0 {
-                            path.move(to: point)
-                        } else {
-                            path.addLine(to: point)
-                        }
-                    }
-                }
-                .stroke(Color.blue, lineWidth: 2)
-            }
-            .frame(height: 200)
+        Chart(data) {
+            element in PointMark(
+                x: .value ("Time", Double(element.time)),
+                y: .value ("Average GSR", Double(element.er))
+            )
+            LineMark(
+                x: .value ("Time", Double(element.time)),
+                y: .value ("Average GSR", Double(element.er))
+            )
         }
     }
 }
+
+
+
+
+
+
+
+
+
+//struct LineChart: View {
+//    var data: [SleepData]
+//
+//    var body: some View {
+//        VStack {
+//            GeometryReader { geometry in
+//                Path { path in
+//                    for i in 0..<data.count {
+//                        let x = CGFloat(i) * (geometry.size.width / CGFloat(data.count - 1))
+//                        let y = CGFloat(data[i].er) * geometry.size.height
+//                        let point = CGPoint(x: x, y: y)
+//                        
+//                        if i == 0 {
+//                            path.move(to: point)
+//                        } else {
+//                            path.addLine(to: point)
+//                        }
+//                    }
+//                }
+//                .stroke(Color.blue, lineWidth: 2)
+//            }
+//            .frame(height: 200)
+//        }
+//    }
+//}
 
 
     
