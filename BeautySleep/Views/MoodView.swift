@@ -122,7 +122,7 @@ struct MoodLineChart: View {
                 )
             }
             .chartXAxisLabel("Date")
-            .chartXAxisLabel("MoodScore")
+            .chartYAxisLabel("MoodScore")
             .chartXScale(domain:[thirtyDaysAgo, firstDataPoint.day])
             .chartYScale(domain:[0,5.0])
         }

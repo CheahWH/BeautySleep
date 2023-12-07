@@ -18,11 +18,9 @@ import FirebaseAppCheck
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
     FirebaseApp.configure()
     return true
   }
-    
 }
 
 
@@ -35,8 +33,9 @@ struct BeautySleepApp: App {
     
     var body: some Scene {
         WindowGroup {
-            BeautySleepTabView()
-                .environmentObject(manager)
+            LoginView()
+//            BeautySleepTabView()
+//                .environmentObject(manager)
         }
     }
 

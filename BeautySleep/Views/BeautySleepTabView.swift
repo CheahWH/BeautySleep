@@ -20,11 +20,11 @@ struct BeautySleepTabView: View {
                     Image(systemName: "moon.zzz.fill")
                 }
 
-            LoginView()
-                .tag("Login")
-                .tabItem {
-                    Image(systemName: "person")
-                }
+//            LoginView()
+//                .tag("Login")
+//                .tabItem {
+//                    Image(systemName: "person")
+//                }
 
             GSRView()
                 .tag("GSR")
