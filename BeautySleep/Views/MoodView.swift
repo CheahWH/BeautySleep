@@ -39,7 +39,7 @@ func readMoodData(completion: @escaping ([MoodData]?) -> Void) {
         // Construct the path to the mood entry for the specific date
         let dateRef = ref.child("\(year)/\(month)/\(day)")
         
-        dateRef.observe(DataEventType.value) { snapshot in
+        dateRef.observeSingleEvent(of: .value) { snapshot in
             if let moodDataDict = snapshot.value as? [String: Any],
                let moodValue = moodDataDict["value"] as? Double {
                 let dataPoint = MoodData(id: dayOffset, moodScore: moodValue, day: date)
@@ -47,7 +47,7 @@ func readMoodData(completion: @escaping ([MoodData]?) -> Void) {
                 print(dataPoint.id, " ", dataPoint.moodScore)
             }
             // Check if we have collected data for the last 30 days
-            if moodDataArray.count == 30 {
+            if dayOffset == 29 {
                 completion(moodDataArray)
                 print("Data displayed")
             }
@@ -121,6 +121,8 @@ struct MoodLineChart: View {
                     y: .value ("MoodScore", Double(element.moodScore))
                 )
             }
+            .chartXAxisLabel("Date")
+            .chartXAxisLabel("MoodScore")
             .chartXScale(domain:[thirtyDaysAgo, firstDataPoint.day])
             .chartYScale(domain:[0,5.0])
         }
