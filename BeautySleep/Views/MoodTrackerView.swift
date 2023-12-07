@@ -103,7 +103,7 @@ struct MoodButton: View {
             if (label == "Neutral") {val += 2}
             if (label == "Good") {val += 3}
             if (label == "Great") {val += 4}
-            
+            print(val)
         }) {
             Text(label)
                 .padding()
@@ -124,7 +124,7 @@ func transmitData(username: String, val: Int) {
     print(formattedDate)
 
     let moodEntry: [String: Any] = [
-        "value": value/7,
+        "value": value
     ]
 
     let userPath = "/moodEntries/\(username)/\(formattedDate)"

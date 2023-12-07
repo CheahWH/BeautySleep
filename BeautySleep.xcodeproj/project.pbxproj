@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A26250F2B2142FE0067A47A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A26250E2B2142FE0067A47A /* GoogleService-Info.plist */; };
+		7A2625112B2153730067A47A /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2625102B2153730067A47A /* MoodView.swift */; };
 		7ACF33F02B1E83240021114B /* MoodTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */; };
 		7ACF33F42B1E98B20021114B /* MyAppCheckProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */; };
 		824BF8302B1849BF009086A6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 824BF82F2B1849BF009086A6 /* FirebaseAnalytics */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		7A26250E2B2142FE0067A47A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7A2625102B2153730067A47A /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodTrackerView.swift; sourceTree = "<group>"; };
 		7ACF33F32B1E98B20021114B /* MyAppCheckProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppCheckProviderFactory.swift; sourceTree = "<group>"; };
 		829EB23E2B186983005378E4 /* GSRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSRView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				829EB23E2B186983005378E4 /* GSRView.swift */,
 				829EB2462B1AB946005378E4 /* SleepDetailsView.swift */,
 				7ACF33EF2B1E83240021114B /* MoodTrackerView.swift */,
+				7A2625102B2153730067A47A /* MoodView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				82F494B62B077AEA00CE7D81 /* ContentView.swift in Sources */,
 				7ACF33F02B1E83240021114B /* MoodTrackerView.swift in Sources */,
 				829EB23F2B186983005378E4 /* GSRView.swift in Sources */,
+				7A2625112B2153730067A47A /* MoodView.swift in Sources */,
 				82F494C82B07893500CE7D81 /* HealthManager.swift in Sources */,
 				7ACF33F42B1E98B20021114B /* MyAppCheckProviderFactory.swift in Sources */,
 				829EB2472B1AB946005378E4 /* SleepDetailsView.swift in Sources */,

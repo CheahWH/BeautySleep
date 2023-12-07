@@ -17,14 +17,17 @@ let database = Database.database()
 
 struct SleepData: Identifiable {
     let id: String
-    let time: CGFloat
+    let time: Date
     let er: CGFloat
 }
 
 
 func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
-    let currentDate = Date()
+    
+//    let currentDate = Date()
+    let currentDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
     let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate)!
+
 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy:MMdd:HHmm:ss"
@@ -36,7 +39,7 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
     let endTimestamp = dateFormatter.string(from: currentDate)
 
     // Adjust these values based on the desired chunk size
-    let pageSize = 50
+    let pageSize = 10000000
     var currentPage = 0
 
     // Function to fetch data for the current page
@@ -54,19 +57,24 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
             }
 
             var sleepDataArray: [SleepData] = []
+            var counter = 0
 
             for (timestamp, entry) in allData {
+                counter += 1
                 print("Entry Timestamp: \(timestamp), Entry: \(entry)")
                 
-                if let er = entry["gsrAverage"] as? CGFloat,
-                   let time = entry["timestamp"] as? CGFloat {
+                if let er = entry["gsrAverage"] as? CGFloat{
                     
-                    let sleepData = SleepData(id: timestamp, time: Double(time), er: Double(er))
-                    if (Double(er) > 750.0 || Double(er) < 600.0){
-                        print(time)
-                        print (sleepData)
+                    if let date = dateFormatter.date(from: timestamp) {
+
+                        let sleepData = SleepData(id: timestamp, time: date, er: Double(er))
+                        if (Double(er) > 750.0 || Double(er) < 600.0){
+                            print(time)
+                            print (sleepData)
+                        }
+                        if (counter % 15 == 0) {sleepDataArray.append(sleepData)
+                        }
                     }
-                    sleepDataArray.append(sleepData)
                 }
             }
 
@@ -88,15 +96,33 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
     }
 }
 
-
-
-
 struct GSRView: View {
+    @State var changeScreen = false
+    var body: some View {
+        if changeScreen == true {
+            MoodView()
+        }
+        else {
+            ChangeGSRView(changeScreen: $changeScreen)
+        }
+    }
+}
+
+
+struct ChangeGSRView: View {
     @State private var loaded = false
     @State private var data: [SleepData] = []
+    @Binding var changeScreen : Bool
+    
     
     var body: some View {
         VStack {
+            Text("GSR Data From Last Night")
+            Button(action: {
+                changeScreen = true
+            }) {
+                Text("View Mood vs Sleep")
+            }
             if !loaded {
                 Text("Loading data...")
                     .onAppear {
@@ -111,7 +137,7 @@ struct GSRView: View {
                         }
                     }
             }else {
-                LineChart(data: data)
+                GSRLineChart(data: data)
             }
         }
     }
@@ -124,21 +150,64 @@ struct GSRView: View {
         }
     }
     
-struct LineChart: View {
+//struct GSRLineChart: View {
+//    let data: [SleepData]
+//
+//    var body: some View {
+//        let firstDataPoint = data.first
+//        let startOfDay = Calendar.current.startOfDay(for: firstDataPoint?.time ?? Date())
+//        
+//        let minX = Double((data.min { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0) / 3600.0)
+//        let maxX = Double((data.max { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0) / 3600.0)
+//        let minY = Double(data.min { $0.er < $1.er }?.er ?? 0)
+//        let maxY = Double(data.max { $0.er < $1.er }?.er ?? 1)
+//
+//        return Chart(data) { element in
+//            let timeSinceMidnight = element.time.timeIntervalSince(startOfDay) / 3600.0
+//            PointMark(
+//                x: .value("Time", Double(timeSinceMidnight)),
+//                y: .value("Average GSR", Double(element.er))
+//            )
+//            .symbolSize(10)
+//        }
+//        .chartXAxisLabel("Time (Hours)")
+//        .chartYAxisLabel("GSR Data")
+//        .chartXScale(domain: [0,24])
+//        .chartYScale(domain: [minY - 100, maxY + 100])
+//    }
+//}
+
+struct GSRLineChart: View {
     let data: [SleepData]
+
     var body: some View {
-        Chart(data) {
-            element in PointMark(
-                x: .value ("Time", Double(element.time)),
-                y: .value ("Average GSR", Double(element.er))
+        let firstDataPoint = data.first
+        let startOfDay = Calendar.current.startOfDay(for: firstDataPoint?.time ?? Date())
+
+        let minX = data.min { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0
+        let maxX = data.max { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0
+        let minY = Double(data.min { $0.er < $1.er }?.er ?? 0)
+        let maxY = Double(data.max { $0.er < $1.er }?.er ?? 1)
+
+        return Chart(data) { element in
+//            let timeSinceMidnight = element.time.timeIntervalSince(startOfDay)
+            PointMark(
+                x: .value("Time", element.time),
+                y: .value("Average GSR", Double(element.er))
             )
-            LineMark(
-                x: .value ("Time", Double(element.time)),
-                y: .value ("Average GSR", Double(element.er))
-            )
+            .symbolSize(10)
         }
+        .chartXAxisLabel("Time")
+        .chartYAxisLabel("GSR Data")
+        .chartXScale(domain: [startOfDay, startOfDay.endOfDay])
+        .chartYScale(domain: [minY - 100, maxY + 100])
     }
 }
+
+
+
+
+
 
 
 
