@@ -6,132 +6,243 @@
 //
 
 
-//TODO:
-//READ IN SENSOR DATA
-//PLOT DATA IN CHART
-import SwiftUI
 
-struct SleepData {
-    let id: Int
-    let time: CGFloat
+
+import SwiftUI
+import Firebase
+import Charts
+
+
+let database = Database.database()
+
+struct SleepData: Identifiable {
+    let id: String
+    let time: Date
     let er: CGFloat
 }
 
-var data: [SleepData] = [
-    SleepData(id: 1, time: 1, er: 492),
-    SleepData(id: 2, time: 2, er: 648),
-    SleepData(id: 3, time: 3, er: 582),
-    SleepData(id: 4, time: 4, er: 436),
-    SleepData(id: 5, time: 5, er: 436),
-    SleepData(id: 6, time: 6, er: 500),
-    SleepData(id: 7, time: 7, er: 300),
-    SleepData(id: 8, time: 8, er: 212),
-    SleepData(id: 9, time: 9, er: 250),
-    SleepData(id: 10, time: 10, er: 190),
-]
 
-struct GSRView: View {
-    var body: some View {
-        VStack {
-            Spacer()
-            HStack{
-                Spacer()
-                LineChart(data: data)
-                    .padding()
-                    .frame(width: 350, height: 700)
-                Spacer()
-            }
-            Spacer()
-        }
-    }
-}
+func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
+    
+//    let currentDate = Date()
+    let currentDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+    let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate)!
 
-struct GSRView_Previews: PreviewProvider {
-    static var previews: some View {
-        GSRView()
-    }
-}
 
-struct LineChart: View {
-    let data: [SleepData]
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy:MMdd:HHmm:ss"
 
-    var body: some View {
-        GeometryReader { geometry in
-            let maxX = data.map(\.time).max() ?? 0
-            let maxY = data.map(\.er).max() ?? 0
+    let ref = Database.database().reference(withPath: "LJ/data")
 
-            let xScale = geometry.size.width / maxX
-            let yScale = geometry.size.height / maxY
+    // Start and end timestamps for the day
+    let startTimestamp = dateFormatter.string(from: yesterday)
+    let endTimestamp = dateFormatter.string(from: currentDate)
 
-            // Y-axis
-            Path { path in
-                path.move(to: CGPoint(x: 30, y: 0))
-                path.addLine(to: CGPoint(x: 30, y: geometry.size.height - 20))
-            }
-            .stroke(lineWidth: 1)
-            .foregroundColor(.black)
+    // Adjust these values based on the desired chunk size
+    let pageSize = 10000000
+    var currentPage = 0
 
-            // X-axis
-            Path { path in
-                path.move(to: CGPoint(x: 30, y: geometry.size.height - 20))
-                path.addLine(to: CGPoint(x: geometry.size.width - 30, y: geometry.size.height - 20))
-            }
-            .stroke(lineWidth: 1)
-            .foregroundColor(.black)
+    // Function to fetch data for the current page
+    func fetchDataForPage(page: Int, completion: @escaping ([SleepData]?) -> Void) {
+        let query = ref.queryOrderedByKey()
+            .queryStarting(atValue: startTimestamp)
+            .queryEnding(atValue: endTimestamp)
+            .queryLimited(toFirst: UInt(pageSize * (page + 1)))  // Adjust limit based on page size
 
-            // Data points and labels
-            ForEach(data, id: \.id) { point in
-                let x = xScale * point.time + 30
-                let y = geometry.size.height - yScale * point.er - 20
-
-                Path { path in
-                    path.addEllipse(in: CGRect(x: x - 5, y: y - 5, width: 10, height: 10))
-                }
-                .foregroundColor(.red)
-
-                Text("\(Int(point.er))")
-                    .position(x: x, y: y - 20)
+        query.observeSingleEvent(of: .value, with: { snapshot in
+            guard let allData = snapshot.value as? [String: [String: Any]] else {
+                print("No data found for the past day")
+                completion(nil)
+                return
             }
 
-            // Y-axis labels
-            ForEach(1..<6, id: \.self) { i in
-                let y = yScale * CGFloat(i) * maxY / 5 - 20
-                Text("\(Int(y))")
-                    .position(x: 15, y: geometry.size.height - y)
-            }
+            var sleepDataArray: [SleepData] = []
+            var counter = 0
 
-            // X-axis labels
-            ForEach(1..<Int(maxX) + 1, id: \.self) { i in
-                let x = xScale * CGFloat(i) + 30
-                Text("\(i)")
-                    .position(x: x, y: geometry.size.height - 10)
-            }
+            for (timestamp, entry) in allData {
+                counter += 1
+                print("Entry Timestamp: \(timestamp), Entry: \(entry)")
+                
+                if let er = entry["gsrAverage"] as? CGFloat{
+                    
+                    if let date = dateFormatter.date(from: timestamp) {
 
-            // Y-axis label
-            Text("Resistance (Units)")
-                .rotationEffect(.degrees(-90))
-                .position(x: -20, y: geometry.size.height / 2)
-
-            // X-axis label
-            Text("Time (Seconds)")
-                .position(x: geometry.size.width / 2, y: geometry.size.height + 20)
-
-            // Connecting lines
-            Path { path in
-                for (index, point) in data.enumerated() {
-                    let x = xScale * point.time + 30
-                    let y = geometry.size.height - yScale * point.er - 20
-
-                    if index == 0 {
-                        path.move(to: CGPoint(x: x, y: y))
-                    } else {
-                        path.addLine(to: CGPoint(x: x, y: y))
+                        let sleepData = SleepData(id: timestamp, time: date, er: Double(er))
+                        if (Double(er) > 750.0 || Double(er) < 600.0){
+                            print(time)
+                            print (sleepData)
+                        }
+                        if (counter % 15 == 0) {sleepDataArray.append(sleepData)
+                        }
                     }
                 }
             }
-            .stroke(lineWidth: 2)
-            .foregroundColor(.blue)
+
+            completion(sleepDataArray)
+            print("data displayed")
+        }) { error in
+            print("Error reading data:", error.localizedDescription)
+            completion(nil)
+        }
+    }
+
+    // Fetch the first page
+    fetchDataForPage(page: currentPage) { sleepDataArray in
+        if let sleepDataArray = sleepDataArray {
+            completion(sleepDataArray)
+        } else {
+            completion(nil)
         }
     }
 }
+
+struct GSRView: View {
+    @State var changeScreen = false
+    var body: some View {
+        if changeScreen == true {
+            MoodView()
+        }
+        else {
+            ChangeGSRView(changeScreen: $changeScreen)
+        }
+    }
+}
+
+
+struct ChangeGSRView: View {
+    @State private var loaded = false
+    @State private var data: [SleepData] = []
+    @Binding var changeScreen : Bool
+    
+    
+    var body: some View {
+        VStack {
+            Text("GSR Data From Last Night")
+            Button(action: {
+                changeScreen = true
+            }) {
+                Text("View Mood vs Sleep")
+            }
+            if !loaded {
+                Text("Loading data...")
+                    .onAppear {
+                        readDataForPastDay { sleepDataArray in
+                            if let sleepDataArray = sleepDataArray {
+                                self.data = Array(sleepDataArray)
+                            }
+                            loaded = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                            print("loading")
+                        }
+                    }
+            }else {
+                GSRLineChart(data: data)
+            }
+        }
+    }
+}
+
+    
+    struct GSRView_Previews: PreviewProvider {
+        static var previews: some View {
+            GSRView()
+        }
+    }
+    
+//struct GSRLineChart: View {
+//    let data: [SleepData]
+//
+//    var body: some View {
+//        let firstDataPoint = data.first
+//        let startOfDay = Calendar.current.startOfDay(for: firstDataPoint?.time ?? Date())
+//        
+//        let minX = Double((data.min { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0) / 3600.0)
+//        let maxX = Double((data.max { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0) / 3600.0)
+//        let minY = Double(data.min { $0.er < $1.er }?.er ?? 0)
+//        let maxY = Double(data.max { $0.er < $1.er }?.er ?? 1)
+//
+//        return Chart(data) { element in
+//            let timeSinceMidnight = element.time.timeIntervalSince(startOfDay) / 3600.0
+//            PointMark(
+//                x: .value("Time", Double(timeSinceMidnight)),
+//                y: .value("Average GSR", Double(element.er))
+//            )
+//            .symbolSize(10)
+//        }
+//        .chartXAxisLabel("Time (Hours)")
+//        .chartYAxisLabel("GSR Data")
+//        .chartXScale(domain: [0,24])
+//        .chartYScale(domain: [minY - 100, maxY + 100])
+//    }
+//}
+
+struct GSRLineChart: View {
+    let data: [SleepData]
+
+    var body: some View {
+        let firstDataPoint = data.first
+        let startOfDay = Calendar.current.startOfDay(for: firstDataPoint?.time ?? Date())
+
+        let minX = data.min { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0
+        let maxX = data.max { $0.time < $1.time }?.time.timeIntervalSince(startOfDay) ?? 0
+        let minY = Double(data.min { $0.er < $1.er }?.er ?? 0)
+        let maxY = Double(data.max { $0.er < $1.er }?.er ?? 1)
+
+        return Chart(data) { element in
+//            let timeSinceMidnight = element.time.timeIntervalSince(startOfDay)
+            PointMark(
+                x: .value("Time", element.time),
+                y: .value("Average GSR", Double(element.er))
+            )
+            .symbolSize(10)
+        }
+        .chartXAxisLabel("Time")
+        .chartYAxisLabel("GSR Data")
+        .chartXScale(domain: [startOfDay, startOfDay.endOfDay])
+        .chartYScale(domain: [minY - 100, maxY + 100])
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//struct LineChart: View {
+//    var data: [SleepData]
+//
+//    var body: some View {
+//        VStack {
+//            GeometryReader { geometry in
+//                Path { path in
+//                    for i in 0..<data.count {
+//                        let x = CGFloat(i) * (geometry.size.width / CGFloat(data.count - 1))
+//                        let y = CGFloat(data[i].er) * geometry.size.height
+//                        let point = CGPoint(x: x, y: y)
+//                        
+//                        if i == 0 {
+//                            path.move(to: point)
+//                        } else {
+//                            path.addLine(to: point)
+//                        }
+//                    }
+//                }
+//                .stroke(Color.blue, lineWidth: 2)
+//            }
+//            .frame(height: 200)
+//        }
+//    }
+//}
+
+
+    
 
