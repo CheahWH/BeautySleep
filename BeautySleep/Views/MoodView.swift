@@ -10,29 +10,52 @@ import Charts
 import Firebase
 
 struct MoodData : Identifiable {
-    let id : String
+    let id : Int
     let moodScore : CGFloat
     let day : Date
 }
 
+import Firebase
+
 func readMoodData(completion: @escaping ([MoodData]?) -> Void) {
+    
     let currentDate = Date()
     let lastMonth = Calendar.current.date(byAdding: .day, value: -30, to: currentDate)!
-    let ref = Database.database().reference(withPath: "moodEntries/rowan")
     
+    let userID = "rowan"
+    let ref = Database.database().reference(withPath: "moodEntries/\(userID)")
 
-    // Adjust these values based on the desired chunk size
-    let pageSize = 50
-    var currentPage = 0
-    
     var moodDataArray: [MoodData] = []
-    let dataPoint = MoodData(id: "rowan", moodScore: 3.0, day:Date())
-    moodDataArray.append(dataPoint)
-    
-    completion(moodDataArray)
-    print("data displayed")
 
+    // Iterate through the last 30 days
+    for dayOffset in 0..<30 {
+        let date = Calendar.current.date(byAdding: .day, value: -dayOffset, to: currentDate)!
+        let year = String(format:"%02d", Calendar.current.component(.year, from: date))
+        let month = String(format:"%02d", Calendar.current.component(.month, from: date))
+        let day = String(format:"%02d", Calendar.current.component(.day, from: date))
+
+        let dateString = "\(year)/\(month)/\(day)"
+
+        // Construct the path to the mood entry for the specific date
+        let dateRef = ref.child("\(year)/\(month)/\(day)")
+        
+        dateRef.observe(DataEventType.value) { snapshot in
+            if let moodDataDict = snapshot.value as? [String: Any],
+               let moodValue = moodDataDict["value"] as? Double {
+                let dataPoint = MoodData(id: dayOffset, moodScore: moodValue, day: date)
+                moodDataArray.append(dataPoint)
+                print(dataPoint.id, " ", dataPoint.moodScore)
+            }
+            // Check if we have collected data for the last 30 days
+            if moodDataArray.count == 30 {
+                completion(moodDataArray)
+                print("Data displayed")
+            }
+        }
+    }
 }
+
+
 
 struct ChangeMoodView : View {
     @State private var loaded = false

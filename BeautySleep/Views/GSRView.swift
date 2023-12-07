@@ -61,7 +61,7 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
 
             for (timestamp, entry) in allData {
                 counter += 1
-                print("Entry Timestamp: \(timestamp), Entry: \(entry)")
+//                print("Entry Timestamp: \(timestamp), Entry: \(entry)")
                 
                 if let er = entry["gsrAverage"] as? CGFloat{
                     
@@ -69,8 +69,8 @@ func readDataForPastDay(completion: @escaping ([SleepData]?) -> Void) {
 
                         let sleepData = SleepData(id: timestamp, time: date, er: Double(er))
                         if (Double(er) > 750.0 || Double(er) < 600.0){
-                            print(time)
-                            print (sleepData)
+//                            print(time)
+//                            print (sleepData)
                         }
                         if (counter % 15 == 0) {sleepDataArray.append(sleepData)
                         }
@@ -113,7 +113,6 @@ struct ChangeGSRView: View {
     @State private var loaded = false
     @State private var data: [SleepData] = []
     @Binding var changeScreen : Bool
-    
     
     var body: some View {
         VStack {
